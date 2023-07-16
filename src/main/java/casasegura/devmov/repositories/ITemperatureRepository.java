@@ -28,7 +28,7 @@ public interface ITemperatureRepository extends JpaRepository<Temperature, Long>
     @Query(value = "select temperatures.temperature, users.id as userId from temperatures "+
             "inner join users on temperatures.user_id = users.id "+
             "where temperatures.user_id =:userId and temperatures.date =:date",nativeQuery = true)
-    List<TemperatureProjection> getTemperatureByDate(Long userId, LocalDate date);
+    float[] getTemperatureByDate(Long userId, LocalDate date);
 
     @Query(value = "select temperatures.*, users.id as userId from temperatures "+
             "inner join users on temperatures.user_id = users.id "+

@@ -1,6 +1,7 @@
 package casasegura.devmov.services;
 
 import casasegura.devmov.controllers.dtos.responses.BaseResponse;
+import casasegura.devmov.controllers.dtos.responses.StaticsResponse;
 import casasegura.devmov.controllers.dtos.responses.TemperatureResponse;
 import casasegura.devmov.controllers.dtos.resquests.CreateTemperatureRequest;
 import casasegura.devmov.controllers.exception.BaseException;
@@ -16,7 +17,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -59,14 +62,39 @@ public class TemperatureServiceImpl implements ITemperatureService {
 
     @Override
     public BaseResponse getStatics(Long id, LocalDate date) {
-        List<TemperatureResponse> data = repository.getTemperatureByDate(id,date)
-                .stream()
-                .map(this::from)
-                .collect(Collectors.toList());
-
+        float[] data = repository.getTemperatureByDate(id,date);
+        //Get mean
+        float plus = 0;
+        for(int i = 0; i<data.length; i++){
+            plus += data[i];
+        }
+        float mean = plus/data.length;
+        //Variance
+        float plusSqrt = 0;
+        for (float value : data) {
+            plusSqrt += Math.pow(value - mean, 2);
+        }
+        float variance = plusSqrt/data.length;
+        //Standard deviation
+        float standardDeviation = (float) Math.sqrt(variance);
+        //Mean deviation
+        float plusDeviation = 0;
+        for (float value : data){
+            plusDeviation += Math.abs(value - mean);
+        }
+        float meanDeviation = plusDeviation/data.length;
+        //Sample deviation
+        float sampleVariance = plusSqrt/(data.length -1);
+        float sampleDeviation = (float) Math.sqrt(sampleVariance);
+        Map<String, Float> response = new HashMap<>();
+        response.put("Mean",mean);
+        response.put("Mean deviation",meanDeviation);
+        response.put("Standard deviation",standardDeviation);
+        response.put("Variance",variance);
+        response.put("Sample deviation", sampleDeviation);
         return BaseResponse.builder()
-                .data(data)
-                .message("Temperature data")
+                .data(response)
+                .message("Statics data")
                 .success(Boolean.TRUE)
                 .httpStatus(HttpStatus.OK)
                 .build();
