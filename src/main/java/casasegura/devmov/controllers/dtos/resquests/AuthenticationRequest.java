@@ -1,17 +1,16 @@
 package casasegura.devmov.controllers.dtos.resquests;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import lombok.*;
 
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@Getter
 public class AuthenticationRequest {
 
-    private String username;
+    @Email
+    @NotEmpty
+    private String email;
 
+    @NotEmpty
     private String password;
 }

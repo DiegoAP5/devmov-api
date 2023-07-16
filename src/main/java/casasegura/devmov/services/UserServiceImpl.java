@@ -9,6 +9,8 @@ import casasegura.devmov.repositories.IUserRepository;
 import casasegura.devmov.services.Interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -107,8 +109,12 @@ public class UserServiceImpl implements IUserService {
     private User create(CreateUserRequest request, User user) {
         user.setName(request.getName());
         user.setEmail(request.getEmail());
-        user.setPassword(request.getPassword());
-        user.setUsername(request.getPassword());
+        user.setUsername(request.getUsername());
+        user.setPassword(encodePassword(request.getPassword()));
         return user;
+    }
+
+    private static String encodePassword(String request){
+        return new BCryptPasswordEncoder().encode(request);
     }
 }
