@@ -26,6 +26,8 @@ public class Temperature {
 
     private float temperature;
 
+    private String air;
+
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;

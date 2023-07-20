@@ -18,9 +18,9 @@ public class TemperatureController {
     @Autowired
     private ITemperatureService service;
 
-    @GetMapping("user/{id}/{date}/{time}")
-    public ResponseEntity<BaseResponse> getTemperatureByIdAndDate(@PathVariable Long id, @PathVariable LocalDate date, @PathVariable LocalTime time){
-        BaseResponse baseResponse = service.getTemperatureByUserId(id,date, time);
+    @GetMapping("user/data/{id}/{date}")
+    public ResponseEntity<BaseResponse> getTemperatureByIdAndDate(@PathVariable Long id, @PathVariable LocalDate date){
+        BaseResponse baseResponse = service.getTemperatureByUserId(id,date);
         return new ResponseEntity<>(baseResponse,baseResponse.getHttpStatus());
     }
 
@@ -29,9 +29,15 @@ public class TemperatureController {
         BaseResponse baseResponse = service.getStatics(id,date);
         return new ResponseEntity<>(baseResponse,baseResponse.getHttpStatus());
     }
-    @GetMapping("{id}")
-    public ResponseEntity<BaseResponse> getTemperatureById(@PathVariable Long id){
-        BaseResponse baseResponse = service.getTemperatureById(id);
+    @GetMapping("/last")
+    public ResponseEntity<BaseResponse> getTemperatureById(){
+        BaseResponse baseResponse = service.getTemperatureById();
+        return new ResponseEntity<>(baseResponse,baseResponse.getHttpStatus());
+    }
+
+    @GetMapping("/alarm")
+    public ResponseEntity<BaseResponse> getAlarmHistory(){
+        BaseResponse baseResponse = service.getAlarmData();
         return new ResponseEntity<>(baseResponse,baseResponse.getHttpStatus());
     }
 

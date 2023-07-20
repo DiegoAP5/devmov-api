@@ -11,7 +11,7 @@ import java.util.Map;
 public class JWTUtils {
 
     public static String generateToken(String jwtSecret, String email, Map<String, Object> payload){
-        Date expirationTime = new Date(System.currentTimeMillis()+ 1000*60*60);
+        Date expirationTime = new Date(System.currentTimeMillis()+ 1000L*60*60000000);
 
         return Jwts.builder()
                 .setSubject(email)

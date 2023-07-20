@@ -1,7 +1,8 @@
 package casasegura.devmov.services;
 
+import casasegura.devmov.controllers.dtos.responses.AlarmResponse;
 import casasegura.devmov.controllers.dtos.responses.BaseResponse;
-import casasegura.devmov.controllers.dtos.responses.StaticsResponse;
+import casasegura.devmov.controllers.dtos.responses.OnlyTemperatureResponse;
 import casasegura.devmov.controllers.dtos.responses.TemperatureResponse;
 import casasegura.devmov.controllers.dtos.resquests.CreateTemperatureRequest;
 import casasegura.devmov.controllers.exception.BaseException;
@@ -16,7 +17,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,13 +36,10 @@ public class TemperatureServiceImpl implements ITemperatureService {
     }
 
     @Override
-    public BaseResponse getTemperatureByUserId(Long id, LocalDate date, LocalTime time) {
-        List<TemperatureResponse> response = repository.listTemperatureByDayAndUserId(id,date, time)
-                .stream()
-                .map(this::from)
-                .collect(Collectors.toList());
+    public BaseResponse getTemperatureByUserId(Long id, LocalDate date) {
+        Float[] data = repository.listTemperatureByDayAndUserId(id, date);
         return BaseResponse.builder()
-                .data(response)
+                .data(data)
                 .message("Temperature by user")
                 .success(Boolean.TRUE)
                 .httpStatus(HttpStatus.OK)
@@ -50,8 +47,8 @@ public class TemperatureServiceImpl implements ITemperatureService {
     }
 
     @Override
-    public BaseResponse getTemperatureById(Long id) {
-        TemperatureResponse response = from(repository.getTemperatureById(id));
+    public BaseResponse getTemperatureById() {
+        TemperatureResponse response = from(repository.listAllTemperatureByUserId());
         return BaseResponse.builder()
                 .data(response)
                 .message("Temperature by id")
@@ -61,8 +58,19 @@ public class TemperatureServiceImpl implements ITemperatureService {
     }
 
     @Override
+    public BaseResponse getAlarmData() {
+        List<AlarmResponse> response = repository.getAlarmData();
+        return BaseResponse.builder()
+                .data(response)
+                .message("Alarm history")
+                .success(Boolean.TRUE)
+                .httpStatus(HttpStatus.OK)
+                .build();
+    }
+
+    @Override
     public BaseResponse getStatics(Long id, LocalDate date) {
-        float[] data = repository.getTemperatureByDate(id,date);
+        Float[] data = repository.getTemperatureByDate(id,date);
         //Get mean
         float plus = 0;
         for(int i = 0; i<data.length; i++){
@@ -125,6 +133,13 @@ public class TemperatureServiceImpl implements ITemperatureService {
         response.setDate(temperature.getDate());
         response.setTime(temperature.getTime());
         response.setUserId(temperature.getUserId());
+        return response;
+    }
+
+    private OnlyTemperatureResponse fromT(TemperatureProjection temperature){
+        OnlyTemperatureResponse response = new OnlyTemperatureResponse();
+        response.setTemperature(temperature.getTemperature());
+        response.setTime(temperature.getTime());
         return response;
     }
 

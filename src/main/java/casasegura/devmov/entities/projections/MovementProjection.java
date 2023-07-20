@@ -12,4 +12,8 @@ public interface MovementProjection {
     LocalTime getTime();
 
     Long getUserId();
+
+    String getMessage();
+
+    String getAlarm();
 }

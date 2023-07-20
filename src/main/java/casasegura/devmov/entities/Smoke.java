@@ -28,6 +28,11 @@ public class Smoke {
 
     private float smoke;
 
+    private String message;
+
+    private String alarm;
+
+
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;

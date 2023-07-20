@@ -15,7 +15,7 @@ public class SwaggerConfig {
 
         final String securitySchemeName = "JWT Token";
 
-        String moduleName = "IntelliFish";
+        String moduleName = "DevMov";
 
         final String apiTitle = String.format("%API", StringUtils.capitalize(moduleName));
 

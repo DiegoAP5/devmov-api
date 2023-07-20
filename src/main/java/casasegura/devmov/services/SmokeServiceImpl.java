@@ -76,6 +76,8 @@ public class SmokeServiceImpl implements ISmokeService {
         response.setTime(smoke.getTime());
         response.setSmoke(smoke.getSmoke());
         response.setUserId(smoke.getUserId());
+        response.setAlarm(smoke.getAlarm());
+        response.setMessage(smoke.getMessage());
         return response;
     }
 
@@ -85,6 +87,8 @@ public class SmokeServiceImpl implements ISmokeService {
         response.setDate(smoke.getDate());
         response.setTime(smoke.getTime());
         response.setSmoke(smoke.getSmoke());
+        response.setMessage(smoke.getMessage());
+        response.setAlarm(smoke.getAlarm());
         return response;
     }
 

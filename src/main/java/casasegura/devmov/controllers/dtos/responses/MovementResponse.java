@@ -16,4 +16,9 @@ public class MovementResponse {
     private float movement;
 
     private Long userId;
+
+    private String message;
+
+    private String alarm;
+
 }

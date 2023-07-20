@@ -15,9 +15,11 @@ public interface ITemperatureService {
     Temperature findDataByUserId(Long id);
 
 
-    BaseResponse getTemperatureByUserId(Long id, LocalDate date, LocalTime time);
+    BaseResponse getTemperatureByUserId(Long id, LocalDate date);
 
-    BaseResponse getTemperatureById(Long id);
+    BaseResponse getTemperatureById();
+
+    BaseResponse getAlarmData();
 
     BaseResponse getStatics(Long id, LocalDate date);
 

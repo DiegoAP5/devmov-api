@@ -77,6 +77,8 @@ public class MovementServiceImpl implements IMovementService {
         response.setTime(movement.getTime());
         response.setMovement(movement.getMovement());
         response.setUserId(movement.getUserId());
+        response.setMessage(movement.getMessage());
+        response.setAlarm(movement.getAlarm());
         return response;
     }
 
@@ -86,6 +88,8 @@ public class MovementServiceImpl implements IMovementService {
         response.setDate(movement.getDate());
         response.setTime(movement.getTime());
         response.setMovement(movement.getMovement());
+        response.setMessage(movement.getMessage());
+        response.setAlarm(movement.getAlarm());
         return response;
     }
 

@@ -12,4 +12,8 @@ public interface SmokeProjection {
     LocalTime getTime();
 
     Long getUserId();
+
+    String getMessage();
+
+    String getAlarm();
 }

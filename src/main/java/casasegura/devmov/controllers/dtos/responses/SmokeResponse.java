@@ -16,4 +16,9 @@ public class SmokeResponse {
     private float smoke;
 
     private Long userId;
+
+    private String message;
+
+    private String alarm;
+
 }

@@ -36,16 +36,14 @@ public class AuthServiceImpl implements IAuthService {
 
         Map<String, Object> payload = new HashMap<>();
         payload.put("userId", userDetails.getUser().getId());
-
         String token = JWTUtils.generateToken(jwtSecret, email, payload);
+        String id = String.valueOf(userDetails.getUser().getId());
 
-        Map<String,String> data = new HashMap<>();
-        data.put("accessToken: ", token);
-        data.put("User: ",email);
+
 
         return BaseResponse.builder()
-                .data(data)
-                .message("Success")
+                .data(token)
+                .message(id)
                 .httpStatus(HttpStatus.CREATED)
                 .success(Boolean.TRUE)
                 .build();
